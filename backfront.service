@@ -1,0 +1,19 @@
+# Add to /etc/systemd/system/backfront.service
+[Unit]
+Description= Machikado Network Website
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/backfront
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node /home/ubuntu/backfront/server.js
+ExecStop=/usr/bin/pkill -e node
+Restart=always
+RestartSec=4
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=backfront
+
+[Install]
+WantedBy=multi-user.target

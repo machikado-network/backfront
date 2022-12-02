@@ -1,4 +1,14 @@
+import {useEffect, useMemo, useState} from "react";
+
 export default function Index() {
+    const [host, setHost] = useState("")
+
+    useEffect(() => {
+        fetch("https://geolocation-db.com/json/")
+            .then(response => response.json())
+            .then(data => setHost(data.IPv4))
+    }, [])
+
     return (
         <div className="relative overflow-hidden bg-white py-16">
             <div className="relative px-4 sm:px-6 lg:px-8">
@@ -37,6 +47,10 @@ export default function Index() {
                     <ul role="list">
                         <li><a href={"https://machikado.network"}>公式サイト</a></li>
                         <li><a href={"https://scrapbox.io/machikado-network"}>Scrapbox</a></li>
+                    </ul>
+                    <h2>あなたの状況</h2>
+                    <ul role={"list"}>
+                        <li>IPアドレス {host}</li>
                     </ul>
                 </div>
             </div>
