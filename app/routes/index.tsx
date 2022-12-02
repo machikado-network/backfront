@@ -1,13 +1,15 @@
-import {useEffect, useMemo, useState} from "react";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import {useLoaderData} from "@remix-run/react";
+
+export const loader: LoaderFunction = async ({request}) => {
+    return json({
+        ip: request.headers.get("X-REAL-IP")
+    });
+};
 
 export default function Index() {
-    const [host, setHost] = useState("")
-
-    useEffect(() => {
-        fetch("https://geolocation-db.com/json/")
-            .then(response => response.json())
-            .then(data => setHost(data.IPv4))
-    }, [])
+    const {ip} = useLoaderData<{ip: string}>()
 
     return (
         <div className="relative overflow-hidden bg-white py-16">
@@ -50,7 +52,7 @@ export default function Index() {
                     </ul>
                     <h2>あなたの状況</h2>
                     <ul role={"list"}>
-                        <li>IPアドレス {host}</li>
+                        <li>IPアドレス: {ip}</li>
                     </ul>
                 </div>
             </div>
